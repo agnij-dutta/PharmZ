@@ -1,0 +1,85 @@
+model:
+  drug_input_dim: 128
+  drug_hidden_dim: 256
+  drug_num_layers: 5
+  ehr_input_dim: 768
+  ehr_hidden_dim: 128
+  fusion_dim: 512
+  num_classes: 2
+  dropout: 0.3
+
+training:
+  batch_size: 32
+  learning_rate: 0.001
+  num_epochs: 100
+  early_stopping_patience: 10
+  optimizer: "adam"
+  scheduler: "cosine"
+
+federated:
+  num_rounds: 10
+  min_clients: 3
+  local_epochs: 5
+  aggregation_method: "fedavg"
+  encryption_enabled: true
+
+clinical:
+  confidence_threshold: 0.8
+  pk_base_clearance: 1.0
+  pk_base_volume: 1.0
+  ec50: 0.5
+  hill_coefficient: 1.2
+  dose_levels: [2.5, 5.0, 7.5, 10.0]
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+  max_request_size: "10MB"
+  allowed_origins: ["*"]
+
+model_params:
+  # Molecular graph parameters
+  mol_dim: 7  # Number of atom features
+  graph_hidden_dim: 64
+  graph_out_dim: 128
+  graph_layers: 3
+  
+  # Clinical data parameters
+  clinical_dim: 3  # Number of clinical features
+  clinical_hidden_dim: 64
+  clinical_layers: 2
+  
+  # Fusion parameters
+  fusion_dim: 256
+  num_attention_heads: 4
+  
+  # Training parameters
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  dropout: 0.1
+  num_epochs: 100
+  early_stopping_patience: 10
+  
+  # Data parameters
+  max_atoms: 50
+  max_seq_length: 100
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15
+  
+  # Federated learning parameters
+  min_clients: 3
+  num_federated_rounds: 50
+  local_epochs: 5
+  privacy_budget: 1.0
+  noise_multiplier: 1.1
+  max_grad_norm: 1.0
+
+data_params:
+  max_atoms: 50
+  max_seq_length: 100
+  train_split: 0.7
+  val_split: 0.15
+  test_split: 0.15

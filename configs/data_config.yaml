@@ -1,0 +1,41 @@
+data_sources:
+  ccle:
+    expression_url: "https://ndownloader.figshare.com/files/13515395"
+    metadata_url: "https://ndownloader.figshare.com/files/13515503"
+  
+  gdsc:
+    drug_response_url: "https://www.cancerrxgene.org/downloads/bulk_download"
+    compound_metadata_url: "https://www.cancerrxgene.org/downloads/drug_metadata"
+
+  mimic:
+    local_path: "data/mimic"
+    tables:
+      - admissions
+      - prescriptions
+      - lab_events
+      - diagnoses_icd
+      - procedures_icd
+
+preprocessing:
+  gene_expression:
+    normalization: "log2_tpm"
+    batch_correction: "combat"
+    min_expression: 1.0
+    
+  drug_response:
+    ic50_transform: "log"
+    quality_threshold: 0.8
+    
+  clinical_data:
+    time_window_hours: 48
+    vital_signs:
+      - heart_rate
+      - blood_pressure
+      - temperature
+      - respiratory_rate
+    lab_tests:
+      - wbc
+      - hemoglobin
+      - platelet
+      - creatinine
+      - glucose
